@@ -57,7 +57,7 @@ html, body {
   left: 0;
   bottom: 0;
   width: $nav-width;
-  background-color: $nav-bg;
+  background-color: $toc-bg;
   font-size: 13px;
   font-weight: bold;
 
@@ -80,7 +80,7 @@ html, body {
     position: relative;
 
     input {
-      background: $nav-bg;
+      background: $toc-bg;
       border-width: 0 0 1px 0;
       border-color: $search-box-border-color;
       padding: 6px 0 6px 20px;
@@ -88,7 +88,7 @@ html, body {
       margin: $nav-v-padding $nav-padding;
       width: $nav-width - 30;
       outline: none;
-      color: $nav-text;
+      color: $toc-text;
       border-radius: 0; /* ios has a default border radius */
     }
 
@@ -96,7 +96,7 @@ html, body {
       position: absolute;
       top: 17px;
       left: $nav-padding;
-      color: $nav-text;
+      color: $toc-text;
       @extend %icon-search;
     }
   }
@@ -114,7 +114,7 @@ html, body {
     transition-property: height, margin;
     transition-duration: 180ms;
     transition-timing-function: ease-in-out;
-    background: $nav-subitem-bg;
+    background: $toc-subitem-bg;
     &.visible {
       height: 30%;
       margin-bottom: 1em;
@@ -126,7 +126,7 @@ html, body {
     }
 
     a {
-      color: $nav-text;
+      color: $toc-text;
       text-decoration: none;
 
       &:hover {
@@ -155,19 +155,19 @@ html, body {
 
   // This is the currently selected ToC entry
   .toc-link.active {
-    background-color: $nav-active-bg;
-    color: $nav-active-text;
+    background-color: $toc-active-bg;
+    color: $toc-active-text;
   }
 
   // this is parent links of the currently selected ToC entry
   .toc-link.active-parent {
-    background-color: $nav-active-parent-bg;
-    color: $nav-active-parent-text;
+    background-color: $toc-active-parent-bg;
+    color: $toc-active-parent-text;
   }
 
   .toc-list-h2 {
     display: none;
-    background-color: $nav-subitem-bg;
+    background-color: $toc-subitem-bg;
     font-weight: 500;
   }
 
@@ -182,7 +182,7 @@ html, body {
     border-top: 1px dashed $nav-footer-border-color;
 
     li,a {
-      color: $nav-text;
+      color: $toc-text;
       text-decoration: none;
     }
 
@@ -205,7 +205,7 @@ html, body {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-decoration: none;
-  color: #fff;
+  color: $toc-text;
   transition-property: background;
   transition-timing-function: linear;
   transition-duration: 130ms;
