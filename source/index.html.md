@@ -194,6 +194,8 @@ A **TimeOfDay** instance must have two properties, both of which are mandatory:
 **time** | This must be set to a [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) date and specify the time of day when the activity is scheduled. Hour, day and minute (offset by timezone) is applied with the offset to the day given by the **days** array specified above. |
 **remind** | If this is `true` then a push notification is sent to all registered [Device]($device)s at the specified time unless a click is registered. |
 
+While the `time` property is parsed into a full date object, only the hour minute and second part of the date object will be used to determine when the notification should happen. The year, month and day part of the date object is calculated according to the `startDate` offset by the `days` array in the schedule.
+
 ## Read Activity
 
 > **To get an activity, use this code:**
@@ -250,6 +252,8 @@ GET https://api.justklikkit.com/v1/activities/:id
 ```
 
 Read the activity with the given id.
+
+### URI
 
 `/activities/:id`
 
@@ -363,13 +367,11 @@ intact in the persisted object.
 
 ## Delete Activity
 
-> **To delete an activity, use this code:**
+> **To delete an activity, use code like this:**
 
 ```
-DELETE https://api.justklikkit.com/v1/activities/:id
+DELETE https://api.justklikkit.com/v1/activities/59fb3ffb0b0633473fe1ae42
 ```
-
-> Where `:id` is the activity id, e.g. "59fb3e3aed922d4718a4f90c"
 
 > **Success Response:**
 
@@ -393,9 +395,105 @@ Delete a given activity.
 
 The id of the activity to delete.
 
+## List Activities
+
+> **To list activities, use code like this:**
+
+```
+GET https://api.justklikkit.com/v1/activities?skip=10&limit=30&since=2017-05-08T10:24:31.142Z
+```
+
+> This will return at most 30 activities which has a start date equal to or greater than
+"2017-05-08T10:24:31.142Z", skipping the first 10 stored activities. Activities are sorted
+by **startDate** ascending.
+
+> **Success Response:**
+
+> The returned data will contain the total count of activities and an array of activities.
+
+> **HTTP Status Code:** 200
+
+```json
+{
+  "metadata": {
+    "totalCount": 61
+  },
+  "data": [
+    {
+      "id": "59fc2f7438bf4c48ef493588",
+      "name": "Drink water",
+      "productId": "59fb3e3aed922d4718a4f90c",
+      "color": "blue",
+      "buttons": [
+        {
+          "id": "59fc2f6d38bf4c48ef493587",
+          "hardwareId": "00:25:96:FF:FE:12:34:56",
+          "firmwareVersion": "V0024",
+          "virtual": false
+        },
+        {
+          "id": "59fc2f6d38bf4c48ef493586",
+          "virtual": true
+        }
+      ],
+      "schedules": [
+        {
+          "id": "59fb444eb0a73a4790f34a80",
+          "startDate": "2017-05-08T10:24:31.142Z",
+          "endDate": "2017-08-08T10:24:31.142Z",
+          "days": ["monday", "wednesday", "friday"],
+          "timesOfDay": [
+            {
+              "id": "59fb4022e51c3647444c4cd8",
+              "time": "2017-05-08T08:00:00.000Z",
+              "remind": true
+            },
+            {
+              "id": "59fb3ffb0b0633473fe1ae42",
+              "time": "2017-05-08T17:00:00.000Z",
+              "remind": false
+            }
+          ]
+        }
+      ]  
+    },
+    ...
+  ]
+}
+```
+
+Get a paginated list of activities. The returned structure will contain `metadata` which
+holds the total number of items in `totalCount` and an array of activities in `data`.
+Activities are always sorted by start date, ascending.
+
+### URI
+
+`/activities`
+
+### Method
+
+`GET`
+
+### Parameters
+
+ - **skip**
+
+The number of activities to skip. If unset, then this parameter defaults to 0.
+
+ - **limit**
+
+The maximum number of activities to return. This cannot be greater than 100.
+If unset then this defaults to 30.
+
+ - **since**
+
+The minimum start date. If unset then this defaults to `1970-01-01T00:00:00.000Z`.
+
 # Authentication
 
-Getting an access token has 3 main use cases:
+## OAuth
+
+Getting an OAuth access token has 3 main use cases:
 
  - Get client access token
  - Get user access token
@@ -443,7 +541,28 @@ Parameter |
 **grant** |
 **scope** |
 
-## Get Access Token
+## CRAM
+
+Button authentication must involve a challenge response authentications.
+
+A client wanting to upload button presses must first request a `client_credentials`
+OAuth bearer token as described in the [OAuth](#oauth) and
+[Get OAuth Access Token](#get-oauth-access-token) sections.
+
+Using the client access token, the client must request a challenge from the
+[Get CRAM Challenge](#get-cram-challenge) endpoint. The challenge must be passed to the button
+which then provides a response. The challenge will be in the form of a Base64 encoded
+[Message ID](https://en.wikipedia.org/wiki/Message-ID) including angle brackets.
+
+The response returned from the button is then sent to the [Get CRAM Access Token](#get-cram-access-token)
+endpoint which will return a single use access token.
+
+The CRAM endpoints accept and return data in either **application/json** or
+**[application/x-msgpack](https://msgpack.org)** format. Specify either of these
+mime types in the **Content-Type** header to specify encoding when sending data
+and in the **Accept** header to specify encoding when receiving data.
+
+## Get OAuth Access Token
 
 > **To authorize a client, use this code:**
 
@@ -605,7 +724,6 @@ token is the token returned by the <code>oauth/token</code> endpoint.
 See [Facebook docs](https://developers.facebook.com/docs/facebook-login/)
 for information on how to get a Facebook access token when using `fb_exchange_token`.
 
-
 ### URI
 
 `/oauth/token`
@@ -669,7 +787,7 @@ Scope | Description
 It must not include any scopes which are not granted to the client
 identified by the `client_id` parameter.
 
-## Invalidate Access Token
+## Invalidate OAuth Access Token
 
 > **To de-authorize a client or a user:**
 
@@ -699,8 +817,275 @@ When succesful, the server will invalidate the access token given in the
 None. This method does not take any parameters. It uses the `Authorization`
 request header to identify which access token to invalidate.
 
-<aside class="warning">After making this request, a <a href="#get-access-token">Get Access Token</a>
+<aside class="warning">After making this request, a <a href="#get-oauth-access-token">Get Access Token</a>
   request must be made before making any further requests.</aside>
+
+## Get CRAM Challenge
+
+> **To get a challenge, use code like this:**
+
+```
+POST https://api.justklikkit.com/v1/cram/challenge
+```
+
+> Post body (json):
+
+```json
+{
+  "email": "joeschmoe@example.com"
+}
+```
+
+> Post body (msgpack - shown here as hex, must be uploaded as binary):
+
+```
+81a5656d61696cb56a6f657363686d6f65406578616d706c652e636f6d
+```
+
+> **Success Response:**
+
+> **HTTP Status Code:** 200
+
+> JSON response:
+
+```json
+{
+  "token_type": "CRAM-AES",
+  "challenge": "<d6be0db929754753+1509977132993@api.justklikkit.com>",
+  "expires_in": 300
+}
+```
+
+> Msgpack response (shown here as hex, will be binary):
+
+```
+83aa746f6b656e5f74797065a84352414d2d414553a96368616c6c656e6765d9343c643662653064623932393735343735332b31353039393737313332393933406170692e6a7573746b6c696b6b69742e636f6d3eaa657870697265735f696ecd012c
+```
+
+Get a single use CRAM challenge which should be used when requesting a challenge-response
+from a button.
+
+### URI
+
+`/cram/challenge`
+
+### Method
+
+`POST`
+
+### Parameters
+
+ - **email**
+
+The email of the user to be authenticated. The email must match an existing user.
+
+## Get CRAM Access Token
+
+> To get an access token, use code like this:
+
+```
+POST https://api.justklikkit.com/v1/cram/token
+```
+
+> Post body (json):
+
+```json
+{
+  "email": "joeschmoe@example.com",
+  "response": "588a829224217c72691bbd5aa7b74bcee004d5e180be843323f80624c7d02a439f48998d999d855cda83282dbc1c8d8baa0ca5ef"
+}
+```
+
+> Post body (msgpack - shown here as hex, must be uploaded as binary):
+
+```
+82a5656d61696cb56a6f657363686d6f65406578616d706c652e636f6da8726573706f6e7365d9683538386138323932323432313763373236393162626435616137623734626365653030346435653138306265383433333233663830363234633764303261343339663438393938643939396438353563646138333238326462633163386438626161306361356566
+```
+
+> **Success Response:**
+
+> **HTTP Status Code:** 200
+
+> JSON response:
+
+```json
+{
+  "token_type": "Bearer",
+  "expires_in": 300,
+  "access_token": "d6be0db9297547536e122ceabc23ac4a670b078a78bc09aa22092516c77dfcc48730035d946c00a8a22286d9c207e3d5b455b9975b5442b5ff34ef75e5877a85"
+}
+```
+> Msgpack response (shown here as hex, will be binary):
+
+```
+83aa746f6b656e5f74797065a6426561726572aa657870697265735f696ecd012cac6163636573735f746f6b656ed9806436626530646239323937353437353336653132326365616263323361633461363730623037386137386263303961613232303932353136633737646663633438373330303335643934366330306138613232323836643963323037653364356234353562393937356235343432623566663334656637356535383737613835
+```
+
+Get a single use CRAM access token.
+
+The resulting token is a short lived bearer token which can only be used once, and which should be used in the same way an [OAuth](#oauth) bearer token should be used - as a value in a HTTP Authorization header field in a subsequent request.
+
+### URI
+
+`/cram/token`
+
+### Method
+
+`POST`
+
+### Parameters
+
+ - **email**
+
+The email which was used in the challenge request.
+
+ - **response**
+
+The challenge response provided by the button.
+
+# Click
+
+The click endpoint accepts and returns data in either **application/json** or
+**[application/x-msgpack](https://msgpack.org)** format. Specify either of these
+mime types in the **Content-Type** header to specify encoding when sending data
+and in the **Accept** header to specify encoding when receiving data.
+
+Clicks are immutable in the system and cannot be updated. They can, though, be
+deleted after having been created.
+
+## Create Clicks
+
+> **To create a click, use this code:**
+
+> `POST https://api.justklikkit.com/v1/clicks`
+
+> Post body (json):
+
+```json
+{
+  "hardwareId": "00:25:96:FF:FE:12:34:56",
+  "clicks": [
+    {
+      "t": 1509959346,
+      "d": 263
+    },
+    {
+      "t": 1509959378,
+      "d": 2210
+    },
+    {
+      "t": 1509959416,
+      "d": 429
+    }
+  ]
+}
+```
+
+> Post body (msgpack - shown here as hex, must be uploaded as binary):
+
+```
+82aa6861726477617265496498563412ccfeccffcc962500a6636c69636b739382a174ce5a0026b2a164cd010782a174ce5a0026d2a164cd08a282a174ce5a0026f8a164cd01ad
+```
+
+> The actual msgpack encoded document looks like this. Notice that the byte array is in big endian order:
+
+```json
+{
+  "hardwareId": [ 86, 52, 18, 254, 255, 150, 37, 0 ],
+  "clicks": [
+    {
+      "t": 1509959346,
+      "d": 263
+    },
+    {
+      "t": 1509959378,
+      "d": 2210
+    },
+    {
+      "t": 1509959416,
+      "d": 429
+    }
+  ]
+}
+```
+
+Clicks are expected to be created in bulk. A create request contains a message
+with one button hardware id followed by an array of clicks. Each click consists of
+a timestamp and a duration in milliseconds.
+
+For physical button clicks, a **hardwareId** must be provided. For virtual buttons
+an *id* must be provided.
+
+### URI
+
+`/clicks`
+
+### Method
+
+`POST`
+
+### Parameters
+
+ - **hardwareId**
+
+The hardware id of the button.
+
+If json encoded then this must be 8 bytes, colon separated, upper case, hexadecimal. This parameter must not be empty.
+
+If msgpack encoded then this must be a `bin 8` with 8 bytes of hardware id as read from the button - in big endian order.
+
+ - **id**
+
+The id of the virtual button which was pressed. This must be provided in place of the hardwareId
+for virtual buttons. The id of a virtual button is an object id string as opposed to the MAC
+address format of the hardwareId.
+
+ - **clicks**
+
+An array of one or more button clicks. Each click must consist of a timestamp which must be seconds since 1970 in UTC, and a duration in milliseconds.
+
+**Click Parameter** | **Data Type** | **Description** |
+--------------------|---------------|-----------------|
+**t** | uint 32 | Timestamp as seconds since 1970 in UTC. |
+**d** | uint 16 | Duration in milliseconds the button was pressed. |
+
+## Delete Click
+
+>> **To delete a click use code like this:**
+
+```
+DELETE https://api.justklikkit.com/v1/clicks?hardwareId=00:25:96:FF:FE:12:34:56&timestamp=1509959346
+```
+
+> **Success Response:**
+
+> **HTTP Status Code:** 204
+
+> The response has no body
+
+Delete a button click. The identifying information when deleting a click is its **hardwareId** and its **timestamp**.
+
+### URI
+
+`/clicks`
+
+### Method
+
+`DELETE`
+
+### Parameters
+
+ - **hardwareId**
+
+The hardware id of the button which produced the click.
+
+ - **id**
+
+The id of the virtual button which produced the click.
+
+ - **timestamp**
+
+The unix epoch timestamp of the click.
 
 # Product
 
@@ -894,13 +1279,13 @@ intact in the persisted object.
 
 ## Delete Product
 
-> **To delete a product, use this code:**
+> **To delete a product, code like this:**
 
 ```
-DELETE https://api.justklikkit.com/v1/products/:id
+DELETE https://api.justklikkit.com/v1/products/59fb3e3aed922d4718a4f90c
 ```
 
-> Where `:id` is the product id, e.g. "59fb3e3aed922d4718a4f90c"
+> Where "59fb3e3aed922d4718a4f90c" is the product id.
 
 > **Success Response:**
 
@@ -923,6 +1308,69 @@ Delete a given product.
 - **:id**
 
 The id of the product to delete.
+
+## List Products
+
+> **To list products, use code like this:**
+
+```
+GET https://api.justklikkit.com/v1/products?skip=10&limit=30
+```
+
+> This will return at most 30 products, skipping the first 10 stored products. Products are sorted
+by **name** ascending.
+
+> **Success Response:**
+
+> The returned data will contain the total count of products and an array of activities.
+
+> **HTTP Status Code:** 200
+
+```json
+{
+  "metadata": {
+    "totalCount": 49
+  },
+  "data": [
+    {
+      "id": "59fb3da06feac047021bf462",
+      "name": "Whey Protein",
+      "manufacturer": "Myprotein",
+      "ean": "5055534352212"
+    },
+    {
+      "id": "59fb3a6534f9e646dcae06cc",
+      "name": "Oatmeal",
+      "manufacturer": "OTA",
+      "ean": "5055576752276"
+    }
+    ...
+  ]
+}
+```
+
+Get a paginated list of products. The returned structure will contain `metadata` which
+holds the total number of items in `totalCount` and an array of products in `data`.
+Products are always sorted by name, ascending.
+
+### URI
+
+`/activities`
+
+### Method
+
+`GET`
+
+### Parameters
+
+ - **skip**
+
+The number of products to skip. If unset, then this parameter defaults to 0.
+
+ - **limit**
+
+The maximum number of products to return. This cannot be greater than 100.
+If unset then this defaults to 30.
 
 # User
 
@@ -1020,7 +1468,7 @@ GET https://api.justklikkit.com/v1/user/me
 }
 ```
 
-A user must be created and authorized using the [Get Access Token](#get-access-token)
+A user must be created and authorized using the [Get OAuth Access Token](#get-oauth-access-token)
 endpoint before accessing any of the other [User](#user) services.
 
 ### URI
@@ -1187,7 +1635,7 @@ of the "I'm a teapot" HTTP response code.
 { "error": "Object not found" }
 ```
 
-All requests except [Get Access Token](#get-access-token) can respond
+All requests except [Get OAuth Access Token](#get-oauth-access-token) can respond
 with **401 Unauthorized** if the `Authorization` header is not set or
 is set to an invalid access token.
 
