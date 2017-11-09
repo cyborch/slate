@@ -176,6 +176,10 @@ be empty. Each button has the following properties:
 **hardwareId** | This field is mandatory when **virtual** is set to `false`. It must be the MAC address of the button. |
 **firmwareVersion** | This field is mandatory when **virtual** is set to `false`. It should be the version of the firmware on the button. |
 
+If the buttons array does not contain one or more virtual buttons, then
+a virtual button will automatically be created and added to the array of
+buttons in the returned activity.
+
  - **schedules**
 
 The `schedules` parameter is an array of schedules. Each schedule has the following properties, all of which are mandatory:
