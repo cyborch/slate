@@ -1112,12 +1112,14 @@ POST https://api.justklikkit.com/v1/products
 > **HTTP Status Code:** 200 - Product was created
 
 ```json
-{
-  "id": "59fb3da06feac047021bf462",
-  "name": "Mypre",
-  "manufacturer": "Myprotein",
-  "ean": "5055534352212"
-}
+[
+  {
+    "id": "59fb3da06feac047021bf462",
+    "name": "Mypre",
+    "manufacturer": "Myprotein",
+    "ean": "5055534352212"
+  }
+]
 ```
 
 > **HTTP Status Code:** 300 - Product was created, but another matching product exists.
