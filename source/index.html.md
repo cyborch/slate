@@ -400,12 +400,11 @@ The id of the activity to delete.
 > **To list activities, use code like this:**
 
 ```
-GET https://api.justklikkit.com/v1/activities?skip=10&limit=30&since=2017-05-08T10:24:31.142Z
+GET https://api.justklikkit.com/v1/activities?skip=10&limit=30
 ```
 
-> This will return at most 30 activities which has a start date equal to or greater than
-"2017-05-08T10:24:31.142Z", skipping the first 10 stored activities. Activities are sorted
-by **startDate** ascending.
+> This will return at most 30 activities, skipping the first 10 stored activities.
+Activities are sorted by **name** ascending.
 
 > **Success Response:**
 
@@ -484,10 +483,6 @@ The number of activities to skip. If unset, then this parameter defaults to 0.
 
 The maximum number of activities to return. This cannot be greater than 100.
 If unset then this defaults to 30.
-
- - **since**
-
-The minimum start date. If unset then this defaults to `1970-01-01T00:00:00.000Z`.
 
 # Authentication
 
