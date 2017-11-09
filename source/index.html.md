@@ -1051,7 +1051,7 @@ An array of one or more button clicks. Each click must consist of a timestamp wh
 
 ## Delete Click
 
->> **To delete a click use code like this:**
+> **To delete a click use code like this:**
 
 ```
 DELETE https://api.justklikkit.com/v1/clicks?hardwareId=00:25:96:FF:FE:12:34:56&timestamp=1509959346
