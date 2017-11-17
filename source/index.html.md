@@ -48,12 +48,12 @@ POST https://api.justklikkit.com/v1/activities
 ```json
 {
   "name": "Drink water",
-  "productId": "59fb3e3aed922d4718a4f90c",
+  "product": "59fb3e3aed922d4718a4f90c",
   "color": "blue",
   "buttons": [
     {
-      "hardwareId": "00:25:96:FF:FE:12:34:56",
-      "firmwareVersion": "V0024",
+      "hardware_id": "00:25:96:FF:FE:12:34:56",
+      "firmware_version": "V0024",
       "virtual": false
     },
     {
@@ -62,10 +62,10 @@ POST https://api.justklikkit.com/v1/activities
   ],
   "schedules": [
     {
-      "startDate": "2017-05-08T10:24:31.142Z",
-      "endDate": "2017-08-08T10:24:31.142Z",
+      "start_date": "2017-05-08T10:24:31.142Z",
+      "end_date": "2017-08-08T10:24:31.142Z",
       "days": ["monday", "wednesday", "friday"],
-      "timesOfDay": [
+      "times_of_day": [
         {
           "time": "2017-05-08T08:00:00.000Z",
           "remind": true
@@ -91,13 +91,13 @@ fields with the added object ids for all objects.
 {
   "id": "59fc2f7438bf4c48ef493588",
   "name": "Drink water",
-  "productId": "59fb3e3aed922d4718a4f90c",
+  "product": "59fb3e3aed922d4718a4f90c",
   "color": "blue",
   "buttons": [
     {
       "id": "59fc2f6d38bf4c48ef493587",
-      "hardwareId": "00:25:96:FF:FE:12:34:56",
-      "firmwareVersion": "V0024",
+      "hardware_id": "00:25:96:FF:FE:12:34:56",
+      "firmware_version": "V0024",
       "virtual": false
     },
     {
@@ -108,10 +108,10 @@ fields with the added object ids for all objects.
   "schedules": [
     {
       "id": "59fb444eb0a73a4790f34a80",
-      "startDate": "2017-05-08T10:24:31.142Z",
-      "endDate": "2017-08-08T10:24:31.142Z",
+      "start_date": "2017-05-08T10:24:31.142Z",
+      "end_date": "2017-08-08T10:24:31.142Z",
       "days": ["monday", "wednesday", "friday"],
-      "timesOfDay": [
+      "times_of_day": [
         {
           "id": "59fb4022e51c3647444c4cd8",
           "time": "2017-05-08T08:00:00.000Z",
@@ -173,8 +173,8 @@ be empty. Each button has the following properties:
 **Property** | **Description** |
 -------------|-----------------|
 **virtual** | Must be `false` for physical buttons and `true` for virtual buttons. |
-**hardwareId** | This field is mandatory when **virtual** is set to `false`. It must be the MAC address of the button. |
-**firmwareVersion** | This field is mandatory when **virtual** is set to `false`. It should be the version of the firmware on the button. |
+**hardware_id** | This field is mandatory when **virtual** is set to `false`. It must be the MAC address of the button. |
+**firmware_version** | This field is mandatory when **virtual** is set to `false`. It should be the version of the firmware on the button. |
 
 If the buttons array does not contain one or more virtual buttons, then
 a virtual button will automatically be created and added to the array of
@@ -186,10 +186,10 @@ The `schedules` parameter is an array of schedules. Each schedule has the follow
 
 **Property** | **Description** |
 -------------|-----------------|
-**startDate** | This must be set to a [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) date and specify the start time and date of the schedule. |
-**endDate** | This must be set to a [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) date and specify the end time and date of the schedule. |
+**start_date** | This must be set to a [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) date and specify the start time and date of the schedule. |
+**end_date** | This must be set to a [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) date and specify the end time and date of the schedule. |
 **days** | This must be an array of zero or more lowercase weekdays. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`. |
-**timesOfDay** | If **days** is non-empty length, then this must be non-empty. It must be an array of **TimeOfDay** as described below. |
+**times_of_day** | If **days** is non-empty length, then this must be non-empty. It must be an array of **TimeOfDay** as described below. |
 
 A **TimeOfDay** instance must have two properties, both of which are mandatory:
 
@@ -198,7 +198,7 @@ A **TimeOfDay** instance must have two properties, both of which are mandatory:
 **time** | This must be set to a [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) date and specify the time of day when the activity is scheduled. Hour, day and minute (offset by timezone) is applied with the offset to the day given by the **days** array specified above. |
 **remind** | If this is `true` then a push notification is sent to all registered [Device]($device)s at the specified time unless a click is registered. |
 
-While the `time` property is parsed into a full date object, only the hour minute and second part of the date object will be used to determine when the notification should happen. The year, month and day part of the date object is calculated according to the `startDate` offset by the `days` array in the schedule.
+While the `time` property is parsed into a full date object, only the hour minute and second part of the date object will be used to determine when the notification should happen. The year, month and day part of the date object is calculated according to the `start_date` offset by the `days` array in the schedule.
 
 ## Read Activity
 
@@ -218,13 +218,13 @@ GET https://api.justklikkit.com/v1/activities/:id
 {
   "id": "59fc2f7438bf4c48ef493588",
   "name": "Drink water",
-  "productId": "59fb3e3aed922d4718a4f90c",
+  "product": "59fb3e3aed922d4718a4f90c",
   "color": "blue",
   "buttons": [
     {
       "id": "59fc2f6d38bf4c48ef493587",
-      "hardwareId": "00:25:96:FF:FE:12:34:56",
-      "firmwareVersion": "V0024",
+      "hardware_id": "00:25:96:FF:FE:12:34:56",
+      "firmware_version": "V0024",
       "virtual": false
     },
     {
@@ -235,10 +235,10 @@ GET https://api.justklikkit.com/v1/activities/:id
   "schedules": [
     {
       "id": "59fb444eb0a73a4790f34a80",
-      "startDate": "2017-05-05T10:24:31.142Z",
-      "endDate": "2017-08-08T10:24:31.142Z",
+      "start_date": "2017-05-05T10:24:31.142Z",
+      "end_date": "2017-08-08T10:24:31.142Z",
       "days": ["monday", "wednesday", "friday"],
-      "timesOfDay": [
+      "times_of_day": [
         {
           "id": "59fb4022e51c3647444c4cd8",
           "time": "2017-05-08T08:00:00.000Z",
@@ -292,7 +292,7 @@ PUT https://api.justklikkit.com/v1/activities/:id
   "schedules": [
     {
       "id": "59fb444eb0a73a4790f34a80",
-      "startDate": "2017-05-05T10:24:31.142Z",
+      "start_date": "2017-05-05T10:24:31.142Z",
     }
   ]  
 }
@@ -312,13 +312,13 @@ item with just an id.
 {
   "id": "59fc2f7438bf4c48ef493588",
   "name": "Drink water",
-  "productId": "59fb3e3aed922d4718a4f90c",
+  "product": "59fb3e3aed922d4718a4f90c",
   "color": "blue",
   "buttons": [
     {
       "id": "59fc2f6d38bf4c48ef493587",
-      "hardwareId": "00:25:96:FF:FE:12:34:56",
-      "firmwareVersion": "V0024",
+      "hardware_id": "00:25:96:FF:FE:12:34:56",
+      "firmware_version": "V0024",
       "virtual": false
     },
     {
@@ -329,10 +329,10 @@ item with just an id.
   "schedules": [
     {
       "id": "59fb444eb0a73a4790f34a80",
-      "startDate": "2017-05-08T10:24:31.142Z",
-      "endDate": "2017-08-08T10:24:31.142Z",
+      "start_date": "2017-05-08T10:24:31.142Z",
+      "end_date": "2017-08-08T10:24:31.142Z",
       "days": ["monday", "wednesday", "friday"],
-      "timesOfDay": [
+      "times_of_day": [
         {
           "id": "59fb4022e51c3647444c4cd8",
           "time": "2017-05-08T08:00:00.000Z",
@@ -419,7 +419,7 @@ Activities are sorted by **name** ascending.
 ```json
 {
   "metadata": {
-    "totalCount": 61
+    "total_count": 61
   },
   "data": [
     {
@@ -430,8 +430,8 @@ Activities are sorted by **name** ascending.
       "buttons": [
         {
           "id": "59fc2f6d38bf4c48ef493587",
-          "hardwareId": "00:25:96:FF:FE:12:34:56",
-          "firmwareVersion": "V0024",
+          "hardware_id": "00:25:96:FF:FE:12:34:56",
+          "firmware_version": "V0024",
           "virtual": false
         },
         {
@@ -442,10 +442,10 @@ Activities are sorted by **name** ascending.
       "schedules": [
         {
           "id": "59fb444eb0a73a4790f34a80",
-          "startDate": "2017-05-08T10:24:31.142Z",
-          "endDate": "2017-08-08T10:24:31.142Z",
+          "start_date": "2017-05-08T10:24:31.142Z",
+          "end_date": "2017-08-08T10:24:31.142Z",
           "days": ["monday", "wednesday", "friday"],
-          "timesOfDay": [
+          "times_of_day": [
             {
               "id": "59fb4022e51c3647444c4cd8",
               "time": "2017-05-08T08:00:00.000Z",
@@ -466,7 +466,7 @@ Activities are sorted by **name** ascending.
 ```
 
 Get a paginated list of activities. The returned structure will contain `metadata` which
-holds the total number of items in `totalCount` and an array of activities in `data`.
+holds the total number of items in `total_count` and an array of activities in `data`.
 Activities are always sorted by start date, ascending.
 
 ### URI
@@ -487,6 +487,149 @@ The number of activities to skip. If unset, then this parameter defaults to 0.
 
 The maximum number of activities to return. This cannot be greater than 100.
 If unset then this defaults to 30.
+
+## Get First Click For Activity
+
+> **To date of first click for an activity use code like this:**
+
+```
+GET https://api.justklikkit.com/v1/activities/59fc2f7438bf4c48ef493588/clicks/first
+```
+
+> This will return the date of the first recorded click for this activity.
+
+> **Success Response:**
+
+> **HTTP Status Code:** 200
+
+```json
+{
+  "date": "2017-05-08T10:24:31.142Z"
+}
+```
+
+The the date of the  first recorded click for a given activity.
+
+### URI
+
+`/activities/:id/clicks/first`
+
+### Method
+
+`GET`
+
+### Parameters
+
+ - **id**
+
+The id of the activity to get date of first click for.
+
+## List Clicks For Activity
+
+> **To list clicks for a given activity use code like this:**
+
+```
+GET https://api.justklikkit.com/v1/activities/59fc2f7438bf4c48ef493588/clicks?before=2017-08-08T00:00:00.000Z&after=2017-05-08T00:00:00.000Z&skip=10&limit=30
+```
+
+> This will return at most 30 clicks starting from 2017-05-08T00:00:00.000Z
+up until 2017-08-08T00:00:00.000Z skipping the first 10 results.
+
+> **Success Response:**
+
+> The returned data will contain the total count of click and an array of clicks.
+
+> **HTTP Status Code:** 200
+
+```json
+{
+  "metadata": {
+    "total_count": 102
+  },
+  "data": [
+    {
+      "id": "59fc2f7438bf4c48ef493588",
+      "timestamp": "2017-05-08T10:24:31.142Z",
+      "duration": "677",
+    },
+    {
+      "id": "59fc2f6d38bf4c48ef672322",
+      "timestamp": "2017-05-08T11:19:32.009Z",
+      "duration": "132",
+    },
+    ...
+  ]
+}
+```
+
+Get a paginated list of clicks. The returned structure will contain 
+metadata which holds the total number of items in `total_count` and an
+array of clicks in `data`. Clicks are always sorted by timstamp, ascending.
+
+### URI
+
+`/activities/:id/clicks`
+
+### Method
+
+`GET`
+
+### Parameters
+
+ - **id**
+
+The id of the activity to retrieve clicks for.
+
+ - **skip**
+
+The number of clicks to skip.
+
+ - **limit**
+
+Maximum number of clicks to return. This cannot be greater than 10000.
+If unset then this defaults to 1000.
+
+ - **before**
+
+All returned clicks will be be before this date. This parameter is optional.
+
+ - **after**
+
+All returned clicks will be be after this date. This parameter is optional.
+
+## Delete Click In Activity
+
+> **To delete a click use code like this:**
+
+```
+DELETE https://api.justklikkit.com/v1/activities/59fc2f7438bf4c48ef493588/clicks/59fc2f6d38bf4c48ef672322
+```
+
+> **Success Response:**
+
+> **HTTP Status Code:** 204
+
+> The response has no body.
+
+Delete a button click.
+
+### URI
+
+`/activities/:activity_id/clicks/:click_id`
+
+### Method
+
+`DELETE`
+
+### Parameters
+
+ - **activity_id**
+
+The id of the activity the click belongs to.
+
+ - **click_id**
+
+The id of the click to delete.
 
 # Authentication
 
@@ -521,7 +664,7 @@ Parameter |
 ---------- |
 **client_id** |
 **client_secret** |
-**username** |
+**email** |
 **password** |
 **grant** |
 **scope** |
@@ -592,7 +735,7 @@ POST https://api.justklikkit.com/v1/oauth/token
 {
   "client_id": "59f36188f3e75be0e6a7e831",
   "client_secret": "asei5thaigh0eey8phoh8Xookuchoh0o",
-  "username": "joeschmoe",
+  "email": "joeschmoe@example.com",
   "password": "secret",
   "grant": "resource_owner_credentials",
   "scope": [ "read_user", "write_user", "read_press", "write_press",
@@ -754,9 +897,9 @@ The `client_id` parameter is the client id provided by Klikkit.
 
 The `client_secret` parameter is the client secret provided by Klikkit.
 
-- **username**
+- **email**
 
-The `username` parameter is solely used with grants of type `resource_owner_credentials`.
+The `email` parameter is solely used with grants of type `resource_owner_credentials`.
 It must be set to the username for the user which is going to be authorized.
 
 - **password**
@@ -962,19 +1105,19 @@ deleted after having been created.
 
 ```json
 {
-  "hardwareId": "00:25:96:FF:FE:12:34:56",
+  "hardware_id": "00:25:96:FF:FE:12:34:56",
   "clicks": [
     {
-      "t": 1509959346,
-      "d": 263
+      "timestamp": 1509959346,
+      "duration": 263
     },
     {
-      "t": 1509959378,
-      "d": 2210
+      "timestamp": 1509959378,
+      "duration": 2210
     },
     {
-      "t": 1509959416,
-      "d": 429
+      "timestamp": 1509959416,
+      "duration": 429
     }
   ]
 }
@@ -990,21 +1133,55 @@ deleted after having been created.
 
 ```json
 {
-  "hardwareId": [ 86, 52, 18, 254, 255, 150, 37, 0 ],
+  "hardware_id": [ 86, 52, 18, 254, 255, 150, 37, 0 ],
   "clicks": [
     {
-      "t": 1509959346,
-      "d": 263
+      "timestamp": 1509959346,
+      "duration": 263
     },
     {
-      "t": 1509959378,
-      "d": 2210
+      "timestamp": 1509959378,
+      "duration": 2210
     },
     {
-      "t": 1509959416,
-      "d": 429
+      "timestamp": 1509959416,
+      "duration": 429
     }
   ]
+}
+```
+
+> **Success response:**
+
+> **HTTP Status Code:** 202
+
+> JSON response:
+
+```json
+{ 
+  "received": 3,
+  "errors": []
+}
+```
+
+> Where **received** is the number of clicks received. The clicks will
+be processed asynchronously and added to the appropriate activities.
+
+> **errors** is an array of errors which were encountered when parsing
+the clicks array.
+
+> **Error response:**
+
+> **HTTP Status Code:** 202
+
+> In case of a correctly formatted request with one or more invalid
+timestamps or durations, then **202** is still returned but with the
+errors array populated with any errors which were encountered.
+
+```json
+{
+  "received": 2,
+  "errors": [ "Timestamp must be greater than 0, was -14" ]
 }
 ```
 
@@ -1012,7 +1189,7 @@ Clicks are expected to be created in bulk. A create request contains a message
 with one button hardware id followed by an array of clicks. Each click consists of
 a timestamp and a duration in milliseconds.
 
-For physical button clicks, a **hardwareId** must be provided. For virtual buttons
+For physical button clicks, a **hardware_id** must be provided. For virtual buttons
 an *id* must be provided.
 
 ### URI
@@ -1025,7 +1202,7 @@ an *id* must be provided.
 
 ### Parameters
 
- - **hardwareId**
+ - **hardware_id**
 
 The hardware id of the button.
 
@@ -1035,9 +1212,9 @@ If msgpack encoded then this must be a `bin 8` with 8 bytes of hardware id as re
 
  - **id**
 
-The id of the virtual button which was pressed. This must be provided in place of the hardwareId
+The id of the virtual button which was pressed. This must be provided in place of the hardware_id
 for virtual buttons. The id of a virtual button is an object id string as opposed to the MAC
-address format of the hardwareId.
+address format of the hardware_id.
 
  - **clicks**
 
@@ -1045,15 +1222,15 @@ An array of one or more button clicks. Each click must consist of a timestamp wh
 
 **Click Parameter** | **Data Type** | **Description** |
 --------------------|---------------|-----------------|
-**t** | uint 32 | Timestamp as seconds since 1970 in UTC. |
-**d** | uint 16 | Duration in milliseconds the button was pressed. |
+**timestamp** | uint 32 | Timestamp as seconds since 1970 in UTC. |
+**duration** | uint 16 | Duration in milliseconds the button was pressed. |
 
 ## Delete Click
 
 > **To delete a click use code like this:**
 
 ```
-DELETE https://api.justklikkit.com/v1/clicks?hardwareId=00:25:96:FF:FE:12:34:56&timestamp=1509959346
+DELETE https://api.justklikkit.com/v1/clicks?hardware_id=00:25:96:FF:FE:12:34:56&timestamp=1509959346
 ```
 
 > **Success Response:**
@@ -1062,7 +1239,7 @@ DELETE https://api.justklikkit.com/v1/clicks?hardwareId=00:25:96:FF:FE:12:34:56&
 
 > The response has no body
 
-Delete a button click. The identifying information when deleting a click is its **hardwareId** and its **timestamp**.
+Delete a button click. The identifying information when deleting a click is its **hardware_id** and its **timestamp**.
 
 ### URI
 
@@ -1074,7 +1251,7 @@ Delete a button click. The identifying information when deleting a click is its 
 
 ### Parameters
 
- - **hardwareId**
+ - **hardware_id**
 
 The hardware id of the button which produced the click.
 
@@ -1330,7 +1507,7 @@ by **name** ascending.
 ```json
 {
   "metadata": {
-    "totalCount": 49
+    "total_count": 49
   },
   "data": [
     {
@@ -1351,7 +1528,7 @@ by **name** ascending.
 ```
 
 Get a paginated list of products. The returned structure will contain `metadata` which
-holds the total number of items in `totalCount` and an array of products in `data`.
+holds the total number of items in `total_count` and an array of products in `data`.
 Products are always sorted by name, ascending.
 
 ### URI
