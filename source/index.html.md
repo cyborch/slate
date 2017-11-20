@@ -1603,7 +1603,7 @@ access_token must be used when accessing any of the other [User](#user),
 ### Parameters
 
 Parameters can be posted as either form-data or application/json in
-the request body. Username, password, and email are required parameters.
+the request body. Email and, password are required parameters.
 
  - **email**
 
