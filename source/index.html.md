@@ -1500,7 +1500,7 @@ by **name** ascending.
 
 > **Success Response:**
 
-> The returned data will contain the total count of products and an array of activities.
+> The returned data will contain the total count of activities and an array of activities.
 
 > **HTTP Status Code:** 200
 
@@ -1549,6 +1549,83 @@ The number of products to skip. If unset, then this parameter defaults to 0.
 
 The maximum number of products to return. This cannot be greater than 100.
 If unset then this defaults to 30.
+
+# Schedule
+
+## Get Schedule For Button
+
+> **To get a button schedule, use code like this:**
+
+```
+GET https://api.justklikkit.com/v1/schedules/button/00:25:96:FF:FE:12:34:56
+```
+
+> **Success Response:**
+
+> The returned data will contain the total count of scheduled click 
+timestamps and an array of scheduled click timestamps.
+
+> **HTTP Status Code:** 200
+
+```json
+{
+  "metadata": {
+    "total_count": 28
+  },
+  "data": [
+    "2017-05-08T17:00:00.000Z",
+    "2017-05-10T08:00:00.000Z",
+    "2017-05-10T17:00:00.000Z",
+    "2017-05-12T08:00:00.000Z",
+    "2017-05-12T17:00:00.000Z",
+    "2017-05-15T08:00:00.000Z",
+    "2017-05-15T17:00:00.000Z",
+    "2017-05-17T08:00:00.000Z",
+    "2017-05-17T17:00:00.000Z",
+    "2017-05-19T08:00:00.000Z",
+    "2017-05-19T17:00:00.000Z",
+    "2017-05-22T08:00:00.000Z",
+    "2017-05-22T17:00:00.000Z",
+    "2017-05-24T08:00:00.000Z",
+    "2017-05-24T17:00:00.000Z",
+    "2017-05-26T08:00:00.000Z",
+    "2017-05-26T17:00:00.000Z",
+    "2017-05-29T08:00:00.000Z",
+    "2017-05-29T17:00:00.000Z",
+    "2017-05-31T08:00:00.000Z",
+    "2017-05-31T17:00:00.000Z",
+    "2017-06-02T08:00:00.000Z",
+    "2017-06-02T17:00:00.000Z",
+    "2017-06-05T08:00:00.000Z",
+    "2017-06-05T17:00:00.000Z",
+    "2017-06-07T08:00:00.000Z",
+    "2017-06-07T17:00:00.000Z",
+    "2017-06-09T08:00:00.000Z"
+  ]
+}
+```
+
+Get a list of scheduled clicks for a given button. The scheduled clicks
+are retrieved from the activity currently associated with the button.
+
+### URI
+
+`/schedules/button/:id`
+
+### Parameters
+
+ - **id**
+
+The hardware id of the button to get a schedule for.
+
+ - **skip**
+
+The number of scheduled click timestamps to skip. If unset, then this parameter defaults to 0.
+
+ - **limit**
+
+The maximum number of scheduled click timestamps to return. This cannot be greater than 10000.
+If unset then this defaults to 10000.
 
 # User
 
