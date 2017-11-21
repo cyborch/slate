@@ -1567,7 +1567,8 @@ POST https://api.justklikkit.com/v1/user/create
   "password": "secret",
   "firstname": "Joe",
   "lastname": "Schmoe",
-  "email": "joe@example.com"
+  "email": "joe@example.com",
+  "scope": [ "read_schedule", "write_schedule" ]
 }
 ```
 
@@ -1624,6 +1625,10 @@ The `firstname` parameter is optional.
 
 The `lastname` parameter is optional.
 
+ - **scope**
+
+The `scope` parameter is optional.
+
 ## Read User
 
 > **To read a user, use this code:**
@@ -1640,6 +1645,7 @@ GET https://api.justklikkit.com/v1/user/me
   "lastname": "Schmoe",
   "email": "joeschmoe@example.com",
   "shortId": 1071308335,
+  "scope": [ "read_schedule", "write_schedule" ],
   "createdAt": "2017-10-31T15:06:07.073Z",
   "updatedAt": "2017-10-31T15:06:54.887Z",
   "id": "59f8915ff9f6a1295d08776c"
@@ -1742,6 +1748,10 @@ The `firstname` parameter is optional.
  - **lastname**
 
 The `lastname` parameter is optional.
+
+ - **scope**
+
+The `scope` parameter is optional.
 
 # Coffee
 
