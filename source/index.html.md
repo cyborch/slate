@@ -1682,6 +1682,15 @@ The number of scheduled click timestamps to skip. If unset, then this parameter 
 The maximum number of scheduled click timestamps to return. This cannot be greater than 10000.
 If unset then this defaults to 10000.
 
+ - **before**
+
+All returned timestamps will be be before this date. This parameter is optional.
+
+ - **after**
+
+All returned timestamps will be be after this date. This parameter is optional.
+
+
 # User
 
 ## Create User
