@@ -48,7 +48,7 @@ POST https://api.justklikkit.com/v1/activities
 ```json
 {
   "name": "Drink water",
-  "product": "59fb3e3aed922d4718a4f90c",
+  "product_id": "59fb3e3aed922d4718a4f90c",
   "color": "blue",
   "buttons": [
     {
@@ -91,7 +91,7 @@ fields with the added object ids for all objects.
 {
   "id": "59fc2f7438bf4c48ef493588",
   "name": "Drink water",
-  "product": "59fb3e3aed922d4718a4f90c",
+  "product_id": "59fb3e3aed922d4718a4f90c",
   "color": "blue",
   "buttons": [
     {
@@ -149,9 +149,9 @@ The schedules array may be empty.
 
 The activity `name` should be unique for the current user and should be non-empty.
 
- - **productId**
+ - **product_id**
 
-The `productId` is optional. If set it must be set to the id of an existing [Product](#product).
+The `product_id` is optional. If set it must be set to the id of an existing [Product](#product).
 
  - **color**
 
@@ -218,7 +218,7 @@ GET https://api.justklikkit.com/v1/activities/:id
 {
   "id": "59fc2f7438bf4c48ef493588",
   "name": "Drink water",
-  "product": "59fb3e3aed922d4718a4f90c",
+  "product_id": "59fb3e3aed922d4718a4f90c",
   "color": "blue",
   "buttons": [
     {
@@ -312,7 +312,7 @@ item with just an id.
 {
   "id": "59fc2f7438bf4c48ef493588",
   "name": "Drink water",
-  "product": "59fb3e3aed922d4718a4f90c",
+  "product_id": "59fb3e3aed922d4718a4f90c",
   "color": "blue",
   "buttons": [
     {
@@ -425,7 +425,7 @@ Activities are sorted by **name** ascending.
     {
       "id": "59fc2f7438bf4c48ef493588",
       "name": "Drink water",
-      "productId": "59fb3e3aed922d4718a4f90c",
+      "product_id": "59fb3e3aed922d4718a4f90c",
       "color": "blue",
       "buttons": [
         {
