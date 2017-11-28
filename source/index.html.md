@@ -1552,6 +1552,10 @@ If unset then this defaults to 30.
 
 # Schedule
 
+The schedule endpoint returns data in either **application/json** or
+**[application/x-msgpack](https://msgpack.org)** format. Specify either of these
+mime types in the **Accept** header to specify encoding when receiving data.
+
 ## Get Schedule For Button
 
 > **To get a button schedule, use code like this:**
@@ -1566,6 +1570,8 @@ GET https://api.justklikkit.com/v1/schedules/button/00:25:96:FF:FE:12:34:56
 timestamps and an array of scheduled click timestamps.
 
 > **HTTP Status Code:** 200
+
+> **JSON Response**
 
 ```json
 {
@@ -1603,6 +1609,55 @@ timestamps and an array of scheduled click timestamps.
     "2017-06-09T08:00:00.000Z"
   ]
 }
+```
+
+> **Msgpack response:**
+
+> The Msgpack encoded response will use unix timestamps in stead of
+formatted dates and have the following structure:
+
+```json
+{
+  "metadata": {
+    "total_count": 28
+  },
+  "data": [
+    1494262800,
+    1494403200,
+    1494435600,
+    1494576000,
+    1494608400,
+    1494835200,
+    1494867600,
+    1495008000,
+    1495040400,
+    1495180800,
+    1495213200,
+    1495440000,
+    1495472400,
+    1495612800,
+    1495645200,
+    1495785600,
+    1495818000,
+    1496044800,
+    1496077200,
+    1496217600,
+    1496250000,
+    1496390400,
+    1496422800,
+    1496649600,
+    1496682000,
+    1496822400,
+    1496854800,
+    1496995200
+  ]
+}
+```
+
+> The hexadecimal representation of the binary data is as follows:
+
+```
+82a86d6574616461746181ab746f74616c5f636f756e741ca464617461dc001cce5910a410ce5912c880ce59134710ce59156b80ce5915ea10ce59196000ce5919de90ce591c0300ce591c8190ce591ea600ce591f2490ce59229a80ce59231910ce59253d80ce5925bc10ce5927e080ce59285f10ce592bd500ce592c5390ce592e7800ce592ef690ce59311b00ce59319990ce59350f80ce59358e10ce5937b280ce59383110ce593a5580
 ```
 
 Get a list of scheduled clicks for a given button. The scheduled clicks
