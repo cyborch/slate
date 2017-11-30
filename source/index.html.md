@@ -1531,7 +1531,7 @@ Products are always sorted by name, ascending.
 
 ### URI
 
-`/activities`
+`/products`
 
 ### Method
 
