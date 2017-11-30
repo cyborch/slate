@@ -287,7 +287,6 @@ PUT https://api.justklikkit.com/v1/activities/:id
 
 ```json
 {
-  "id": "59fc2f7438bf4c48ef493588",
   "name": "Drink cold water",
   "schedules": [
     {
@@ -1397,7 +1396,6 @@ PUT https://api.justklikkit.com/v1/products/:id
 
 ```json
 {
-  "id": "59fc2f7438bf4c48ef493588",
   "name": "Whey Protein",
 }
 ```
