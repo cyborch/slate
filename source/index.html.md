@@ -1262,6 +1262,56 @@ The id of the virtual button which produced the click.
 
 The unix epoch timestamp of the click.
 
+# Device
+
+## Create Device
+
+> **To create a device, use this code:**
+
+```
+POST https://api.justklikkit.com/v1/devices
+```
+
+> Post body:
+
+```json
+{
+  "os": "ios",
+  "device_id": "a9d0ed10e9cfd022a61cb08753f49c5a0b0dfb383697bf9f9d750a1003da19c7"
+}
+```
+
+> **Success Response:**
+
+> **HTTP Status Code:** 201 - Device was created
+
+```json
+{
+  "status": "ok"
+}
+```
+
+### URI
+
+`/devices`
+
+### Method
+
+`POST`
+
+### Parameters
+
+ - **os**
+
+The `os` must be one of "ios" or "android".
+
+ - **device_id**
+
+The `device_id` must be the device registration token. See [iOS]()
+and [android](https://firebase.google.com/docs/cloud-messaging/android/client)
+client documentation for information on how to retrieve the device 
+registration token.
+
 # Product
 
 ## Create Product
