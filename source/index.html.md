@@ -1291,6 +1291,15 @@ POST https://api.justklikkit.com/v1/devices
 }
 ```
 
+A device must be created before push notifications can be sent to a 
+given users device. Device tokens will invalidate themselves when the 
+user uninstalls the app from the device and a folowing push notification
+fails.
+
+An app should send an updated device registration token every time the
+app starts to ensure that the push notification service always has a
+valid token.
+
 ### URI
 
 `/devices`
@@ -1303,11 +1312,12 @@ POST https://api.justklikkit.com/v1/devices
 
  - **os**
 
-The `os` must be one of "ios" or "android".
+The `os` must be one of `ios` or `android`.
 
  - **device_id**
 
-The `device_id` must be the device registration token. See [iOS]()
+The `device_id` must be the device registration token. See 
+[iOS](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html)
 and [android](https://firebase.google.com/docs/cloud-messaging/android/client)
 client documentation for information on how to retrieve the device 
 registration token.
