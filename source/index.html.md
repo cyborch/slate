@@ -187,7 +187,7 @@ The `schedules` parameter is an array of schedules. Each schedule has the follow
 **Property** | **Description** |
 -------------|-----------------|
 **start_date** | This must be set to a [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) date and specify the start time and date of the schedule. |
-**end_date** | This must be set to a [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) date and specify the end time and date of the schedule. |
+**end_date** | This must either be set to a [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) date or to `distant_future` and specify the end time and date of the schedule. For `distant_future` a date in the distant future is picked by the server. |
 **days** | This must be an array of zero or more lowercase weekdays. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`. |
 **times_of_day** | If **days** is non-empty length, then this must be non-empty. It must be an array of **TimeOfDay** as described below. |
 
@@ -549,12 +549,12 @@ up until 2017-08-08T00:00:00.000Z skipping the first 10 results.
     {
       "id": "59fc2f7438bf4c48ef493588",
       "timestamp": "2017-05-08T10:24:31.142Z",
-      "duration": "677",
+      "duration": 677,
     },
     {
       "id": "59fc2f6d38bf4c48ef672322",
       "timestamp": "2017-05-08T11:19:32.009Z",
-      "duration": "132",
+      "duration": 132,
     },
     ...
   ]
@@ -629,6 +629,101 @@ The id of the activity the click belongs to.
  - **click_id**
 
 The id of the click to delete.
+
+## List Events In Activity
+
+> **To list events for a given activity use code like this:**
+
+```
+GET https://api.justklikkit.com/v1/activities/59fc2f7438bf4c48ef493588/events?before=2017-08-08T00:00:00.000Z&after=2017-05-08T00:00:00.000Z&skip=10&limit=30
+```
+
+> This will return at most 30 events starting from 2017-05-08T00:00:00.000Z
+up until 2017-08-08T00:00:00.000Z skipping the first 10 results.
+
+> **Success Response:**
+
+> The returned data will contain the total count of events and an array of events.
+
+> **HTTP Status Code:** 200
+
+```json
+{
+  "metadata": {
+    "total_count": 52
+  },
+  "data": [
+    {
+      "timestamp": "2017-12-13T08:00:00.000Z",
+      "event_type": "scheduled",
+      "id": "5a27beb72686c30d1465bd70"
+    },
+    {
+      "timestamp": "2017-12-15T08:00:00.000Z",
+      "event_type": "fulfilled",
+      "id": "5a27beb72686c30d1465bd71",
+      "click": {
+        "timestamp": "2017-12-15T08:02:32.512Z",
+        "duration": 263,
+        "hardware_id": "00:25:96:FF:FE:12:34:56",
+        "button_id": null
+      }
+    },
+    ...
+  ]
+}
+```
+
+Get a paginated list of events. The returned structure will contain 
+metadata which holds the total number of items in `total_count` and an
+array of events in `data`. Events are always sorted by timestamp, ascending.
+
+An event always has a timestamp which is the UTC date of the event and
+a type which can be one of the following:
+
+Event Type | Description |
+-----------|-------------|
+**unscheduled** | The event is a button press which did not match any scheduled events. |
+**scheduled** | The event is scheduled but hasn't happened. If the timestamp is in the past then the event was missed, if it is in the future then the user still has an opportunity fulfill the event. |
+**fulfilled** | The user has pressed a button which is associated with the activity at a time which is close enough to the scheduled event to be matched to the event. |
+
+For `unscheduled` and `fulfilled` events will have a click property 
+which has a `click` property with a `hardware_id`, a `button_id`, a
+`timestamp`, and a `duration`. The properties of the click will take 
+the same format as those of a click created via the [Create Clicks](#create-clicks)
+endpoint. Either `hardware_id` or `button_id` will be null depending on
+whether the click was made from a physical or a virtual button.
+
+### URI
+
+`/activities/:id/events`
+
+### Method
+
+`GET`
+
+### Parameters
+
+ - **id**
+
+The id of the activity to retrieve events for.
+
+ - **skip**
+
+The number of events to skip.
+
+ - **limit**
+
+Maximum number of events to return. This cannot be greater than 10000.
+If unset then this defaults to 1000.
+
+ - **before**
+
+All returned events will be be before this date. This parameter is optional.
+
+ - **after**
+
+All returned events will be be after this date. This parameter is optional.
 
 # Authentication
 
@@ -1826,7 +1921,8 @@ The `lastname` parameter is optional.
 
  - **scope**
 
-The `scope` parameter is optional.
+See [Get OAuth Access Token](#get-oauth-access-token) for description 
+of the `scope` parameter.
 
 ## Read User
 
