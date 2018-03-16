@@ -1179,6 +1179,91 @@ The email which was used in the challenge request.
 
 The challenge response provided by the button.
 
+# Button
+
+## Query Button
+
+> **To query for button conflicts, use code like this:**
+
+```
+GET https://api.justklikkit.com/v1/buttons/query/00:25:96:FF:FE:12:34:56
+```
+
+> **Success Response:**
+
+> **HTTP Status Code:** 200
+
+> JSON response:
+
+```json
+{
+  "status": "ok"
+}
+```
+
+> **Conflict Response:**
+
+> **HTTP Status Code:** 409
+
+> JSON response:
+
+```json
+{
+  "status": "conflict",
+  "error": "Button is in use in another activity",
+  "code": 40902,
+  "info": {
+    "activity": {
+      "id": "59fc2f7438bf4c48ef493588",
+      "name": "Drink water"
+    }
+  }
+}
+```
+
+Querying a button for use in existing activities can yield either 
+`200 - OK` or `409 - Conflict` HTTP status codes. The HTTP body on a 
+`Conflict` return will contain an `error` description, a `code` and an
+`info` which is only set when extra information can be provided.
+
+The `status` can be one of the following:
+
+**Status** | **Description** |
+-----------|-----------------|
+**ok** | The button is not in use in any activity |
+**conflict** | The button is in use in another activity |
+
+The `code` and `error` can be one of the following:
+
+**Code** | **Error** |
+---------|-----------|
+**40901** | Button is in use by another user |
+**40902** | Button is in use in another activity |
+
+In case of error code **40902** the `info` property will contain an
+`activity` document which will contain the `id` and `name` of the
+activity which owns the button.
+
+
+### URI
+
+`/buttons/query/:hardware_id`
+
+### Method
+
+`GET`
+
+### Parameters
+
+- **hardware_id**
+
+The hardware id of the button.
+
+
+
+
+
+
 # Click
 
 The click endpoint accepts and returns data in either **application/json** or
