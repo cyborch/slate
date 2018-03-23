@@ -76,7 +76,7 @@ POST https://api.justklikkit.com/v1/activities
         }
       ]
     }
-  ]  
+  ],
 }
 ```
 
@@ -124,7 +124,9 @@ fields with the added object ids for all objects.
         }
       ]
     }
-  ]  
+  ],
+  "created_at": "2017-02-02T03:11:54.113Z",
+  "updated_at": "2017-02-02T05:02:32.022Z"
 }
 ```
 
@@ -251,7 +253,9 @@ GET https://api.justklikkit.com/v1/activities/:id
         }
       ]
     }
-  ]  
+  ],
+  "created_at": "2017-05-08T10:24:31.142Z",
+  "updated_at": "2017-05-09T11:02:11.564Z"
 }
 ```
 
@@ -344,7 +348,9 @@ item with just an id.
         }
       ]
     }
-  ]  
+  ],
+  "created_at": "2017-05-08T10:24:31.142Z",
+  "updated_at": "2017-05-09T11:02:11.564Z"
 }
 ```
 
@@ -457,7 +463,9 @@ Activities are sorted by **name** ascending.
             }
           ]
         }
-      ]  
+      ],
+      "created_at": "2017-05-08T10:24:31.142Z",
+      "updated_at": "2017-05-09T11:02:11.564Z"  
     },
     ...
   ]
@@ -550,11 +558,15 @@ up until 2017-08-08T00:00:00.000Z skipping the first 10 results.
       "id": "59fc2f7438bf4c48ef493588",
       "timestamp": "2017-05-08T10:24:31.142Z",
       "duration": 677,
+      "created_at": "2017-05-08T10:24:31.142Z",
+      "updated_at": "2017-05-09T11:02:11.564Z"
     },
     {
       "id": "59fc2f6d38bf4c48ef672322",
       "timestamp": "2017-05-08T11:19:32.009Z",
       "duration": 132,
+      "created_at": "2017-05-08T10:24:31.142Z",
+      "updated_at": "2017-05-09T11:02:11.564Z"
     },
     ...
   ]
@@ -656,7 +668,9 @@ up until 2017-08-08T00:00:00.000Z skipping the first 10 results.
     {
       "timestamp": "2017-12-13T08:00:00.000Z",
       "event_type": "scheduled",
-      "id": "5a27beb72686c30d1465bd70"
+      "id": "5a27beb72686c30d1465bd70",
+      "created_at": "2017-05-08T10:24:31.142Z",
+      "updated_at": "2017-05-09T11:02:11.564Z"
     },
     {
       "timestamp": "2017-12-15T08:00:00.000Z",
@@ -667,7 +681,9 @@ up until 2017-08-08T00:00:00.000Z skipping the first 10 results.
         "duration": 263,
         "hardware_id": "00:25:96:FF:FE:12:34:56",
         "button_id": null
-      }
+      },
+      "created_at": "2017-05-08T10:24:31.142Z",
+      "updated_at": "2017-05-09T11:02:11.564Z"
     },
     ...
   ]
@@ -1332,7 +1348,7 @@ deleted after having been created.
 
 > **Success response:**
 
-> **HTTP Status Code:** 202
+> **HTTP Status Code:** 200
 
 > JSON response:
 
@@ -1351,10 +1367,10 @@ the clicks array.
 
 > **Error response:**
 
-> **HTTP Status Code:** 202
+> **HTTP Status Code:** 200
 
 > In case of a correctly formatted request with one or more invalid
-timestamps or durations, then **202** is still returned but with the
+timestamps or durations, then **200** is still returned but with the
 errors array populated with any errors which were encountered.
 
 ```json
@@ -1532,7 +1548,9 @@ POST https://api.justklikkit.com/v1/products
     "id": "59fb3da06feac047021bf462",
     "name": "Mypre",
     "manufacturer": "Myprotein",
-    "ean": "5055534352212"
+    "ean": "5055534352212",
+    "created_at": "2017-05-08T10:24:31.142Z",
+    "updated_at": "2017-05-09T11:02:11.564Z"
   }
 ]
 ```
@@ -1548,13 +1566,17 @@ by any other products which match the created product is returned.
     "id": "59fb3da06feac047021bf462",
     "name": "Mypre",
     "manufacturer": "Myprotein",
-    "ean": "5055534352212"
+    "ean": "5055534352212",
+    "created_at": "2017-05-08T10:24:31.142Z",
+    "updated_at": "2017-05-09T11:02:11.564Z"
   },
   {
     "id": "59fb3a6534f9e646dcae06cc",
     "name": "Mypre",
     "manufacturer": "MyProtein",
-    "ean": "5055534352212"
+    "ean": "5055534352212",
+    "created_at": "2017-02-08T09:11:43.087Z",
+    "updated_at": "2017-02-09T13:25:21.114Z"
   }
 ]
 ```
@@ -1602,7 +1624,9 @@ GET https://api.justklikkit.com/v1/products/:id
   "id": "59fb3da06feac047021bf462",
   "name": "Mypre",
   "manufacturer": "Myprotein",
-  "ean": "5055534352212"
+  "ean": "5055534352212",
+  "created_at": "2017-05-08T10:24:31.142Z",
+  "updated_at": "2017-05-09T11:02:11.564Z"
 }
 ```
 
@@ -1647,7 +1671,9 @@ PUT https://api.justklikkit.com/v1/products/:id
   "id": "59fb3da06feac047021bf462",
   "name": "Whey Protein",
   "manufacturer": "Myprotein",
-  "ean": "5055534352212"
+  "ean": "5055534352212",
+  "created_at": "2017-05-08T10:24:31.142Z",
+  "updated_at": "2017-05-09T11:02:11.564Z"
 }
 ```
 
@@ -1662,13 +1688,17 @@ by any other products which match the created product is returned.
     "id": "59fb3da06feac047021bf462",
     "name": "Whey Protein",
     "manufacturer": "Myprotein",
-    "ean": "5055534352212"
+    "ean": "5055534352212",
+    "created_at": "2017-05-08T10:24:31.142Z",
+    "updated_at": "2017-05-09T11:02:11.564Z"
   },
   {
     "id": "59fb3a6534f9e646dcae06cc",
     "name": "Whey Protein",
     "manufacturer": "MyProtein",
-    "ean": "5055534352212"
+    "ean": "5055534352212",
+    "created_at": "2017-02-02T03:11:54.113Z",
+    "updated_at": "2017-02-02T05:02:32.022Z"
   }
 ]
 ```
@@ -1752,13 +1782,17 @@ by **name** ascending.
       "id": "59fb3da06feac047021bf462",
       "name": "Whey Protein",
       "manufacturer": "Myprotein",
-      "ean": "5055534352212"
+      "ean": "5055534352212",
+      "created_at": "2017-05-08T10:24:31.142Z",
+      "updated_at": "2017-05-09T11:02:11.564Z"
     },
     {
       "id": "59fb3a6534f9e646dcae06cc",
       "name": "Oatmeal",
       "manufacturer": "OTA",
-      "ean": "5055576752276"
+      "ean": "5055576752276",
+      "created_at": "2017-02-02T03:11:54.113Z",
+      "updated_at": "2017-02-02T05:02:32.022Z"
     }
     ...
   ]
@@ -2024,10 +2058,10 @@ GET https://api.justklikkit.com/v1/user/me
   "firstname": "Joe",
   "lastname": "Schmoe",
   "email": "joeschmoe@example.com",
-  "shortId": 1071308335,
+  "short_id": 1071308335,
   "scope": [ "read_schedule", "write_schedule" ],
-  "createdAt": "2017-10-31T15:06:07.073Z",
-  "updatedAt": "2017-10-31T15:06:54.887Z",
+  "created_at": "2017-10-31T15:06:07.073Z",
+  "updated_at": "2017-10-31T15:06:54.887Z",
   "id": "59f8915ff9f6a1295d08776c"
 }
 ```
@@ -2081,9 +2115,9 @@ different and previous access tokens should be considered invalid.
         "firstname": "Joe",
         "lastname": "Schmoe",
         "email": "joeschmoe@example.com",
-        "shortId": 1071308335,
-        "createdAt": "2017-10-31T15:06:07.073Z",
-        "updatedAt": "2017-10-31T15:06:54.887Z",
+        "short_id": 1071308335,
+        "created_at": "2017-10-31T15:06:07.073Z",
+        "updated_at": "2017-10-31T15:06:54.887Z",
         "id": "59f8915ff9f6a1295d08776c"
     },
     "authorization": {
@@ -2203,6 +2237,25 @@ of the "I'm a teapot" HTTP response code.
 { "error": "Object not found" }
 ```
 
+> **HTTP Status Code:** 409
+
+> In case the object stored on the server is newer than the object send to te server,
+an error is returned with a status code 409 - Conflict. The error response will
+contain an error code of `40903`, the object id, and the update timestamp of the object stored
+on the server.
+
+```json
+{ 
+  "error": "Object updated",
+  "code": 40903,
+  "object": {
+    "id": "59fc2f7438bf4c48ef493588",
+    "updated_at": "2017-12-15T08:02:32.512Z"
+  }
+}
+```
+
+
 All requests except [Get OAuth Access Token](#get-oauth-access-token) can respond
 with **401 Unauthorized** if the `Authorization` header is not set or
 is set to an invalid access token.
@@ -2210,3 +2263,6 @@ is set to an invalid access token.
 All `GET`, `PUT`, and `DELETE` requests to read, update, or delete a resource,
 respectively, may return **404 Not Found** if the given resource id does
 not match an existing object.
+
+All `PUT` requests to update a resource may return **409 Conflict** in case the
+`updated_at` property of the server side object is newer than the object sent.
